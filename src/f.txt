@@ -1,0 +1,34 @@
+
+data["Date"] = pd.to_datetime(data['Date'], format='%m/%d/%Y')
+#data["YOB"] = pd.to_datetime(data['YOB'], format='%Y')
+# print(data.dtypes, data.shape, data.columns)
+
+x = data["Date"]
+y = data["YOB"]
+
+data=data.join(pd.get_dummies(data["Gender"]))
+data.pop("Gender")
+fr = data.groupby(["YOB"]).count()[["male", "female"]]
+# print(fr.head(10))
+#print(data.groupby(["Zip", "Gender"]))
+
+#print([fr["female"][fr["female"].keys()[int(idx/2)]] if idx % 2 == 0 else fr["female"][fr["female"].keys()[int(idx/2)]]  for idx in range(18)])
+plt.bar(
+    list(range(len(fr.index))), fr["male"], tick_label = fr.index, width = 0.8, color = ["blue"], label="Boys"
+
+    #list(range(len(fr.index))), [fr["male"][fr["male"].keys()[int(idx/2)]] if idx % 2 == 0 else fr["female"][fr["female"].keys()[int(idx/2)]]  for idx in range(18)], tick_label = [ fr.index[int(idx/2)] if idx % 2 == 0 else "" for idx in range(18)],width = 0.8, color = ["blue", "pink"]
+)
+plt.bar(
+    list(range(len(fr.index))), fr["female"], tick_label = fr.index, width = 0.8, color = ["pink"], label="Girls"
+
+    #list(range(len(fr.index))), [fr["male"][fr["male"].keys()[int(idx/2)]] if idx % 2 == 0 else fr["female"][fr["female"].keys()[int(idx/2)]]  for idx in range(18)], tick_label = [ fr.index[int(idx/2)] if idx % 2 == 0 else "" for idx in range(18)],width = 0.8, color = ["blue", "pink"]
+)
+
+# naming the x-axis
+plt.xlabel('Year of Birth')
+# naming the y-axis
+plt.ylabel('')
+
+plt.yticks(np.linspace(0,4,5))
+# plot title
+plt.title('My bar chart!')
