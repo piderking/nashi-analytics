@@ -21,6 +21,7 @@ print(age_group_counts.head())
 
 df['age_group'].hist()
 
+
 """
 
 plt.plot(x, y, color='green', linestyle='dashed', linewidth = 3,
