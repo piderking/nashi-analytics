@@ -1,4 +1,5 @@
 # Nashi Analytics
+- Everything is not up to date, most graphs are missing data
 - [Images](/images/)
 
 
