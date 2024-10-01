@@ -56,7 +56,13 @@ jobs:
     # Create Zip File
     - uses: montudor/action-zip@v1
       with:
-        args: "zip -r warmline-images-${{ vars.VERSION }}.zip . -i images/warmline"
+        args: "zip -r warmline-images-${{ vars.VERSION }}.zip images"
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: warmline-images-${{ vars.VERSION }}.zip
     
   
 
