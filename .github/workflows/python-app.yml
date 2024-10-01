@@ -36,11 +36,9 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - uses: montudor/action-zip@v1
-      env: 
-        PASSWORD: ${{ secrets.PASSWORD }}
-        VERSION: ${{ vars.VERSION }}
+
       with:
-        args: "unzip -P $PASSWORD -u data-encrypted/data-$VERSION.zip" 
+        args: "unzip -P ${{ secrets.PASSWORD }} -u data-encrypted/data-${{ vars.VERSION }}.zip" 
           
           
     - name: Run all the warmline generation files
