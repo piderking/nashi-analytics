@@ -40,7 +40,7 @@ jobs:
         PASSWORD: ${{ secrets.PASSWORD }}
         VERSION: ${{ vars.VERSION }}
       with:
-        args: unzip -P $PASSWORD -u data-encrypted/data-$VERSION.zip 
+        args: "unzip -P $PASSWORD -u data-encrypted/data-$VERSION.zip" 
           
           
     - name: Run all the warmline generation files
