@@ -10,3 +10,6 @@ encrypt $version $password:
 
 open $version $password:
     unzip -P $password -u data-encrypted/data-$version.zip 
+
+runall $line:
+    bash run-all.sh $line
