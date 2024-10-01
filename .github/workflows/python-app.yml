@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Python application
+name: Warmline Graphs
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  test:
     
     runs-on: ubuntu-latest
     environment: production
@@ -45,3 +45,61 @@ jobs:
     - name: Run all the warmline generation files
       run: |
         bash run-all.sh warmline
+  # Release
+  release:
+    runs-on: ubuntu-latest
+    environment: production
+  
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
+    - uses: montudor/action-zip@v1
+      with:
+        args: "unzip -P ${{ secrets.PASSWORD }} -u data-encrypted/data-${{ vars.VERSION }}.zip" 
+          
+          
+    - name: Run all the warmline generation files
+      run: |
+        bash run-all.sh warmline
+
+
+    # Create Zip File
+    - uses: montudor/action-zip@v1
+      with:
+        args: "zip -r warmline-images-${{ vars.VERSION }}.zip images/warmline" 
+    
+    # Upload data-encrypted
+    - name: Create Draft Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: "{{ vars.VERSION }}"
+        release_name: "Warmline-Graphs"
+        draft: true
+        prerelease: false
+    
+    - uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./warmline-images-${{ vars.VERSION }}.zip
+        asset_name: warmline-images-${{ vars.VERSION }}.zip
+        asset_content_type: application/zip
+
+    - uses: eregon/publish-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.create_release.outputs.id }}
+
