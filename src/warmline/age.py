@@ -2,10 +2,10 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-files = pd.read_csv("data/01-24.csv")
 
 
-df = pd.concat( [  pd.read_csv(os.path.join(os.path.abspath("."), "data", "warmline", file)).dropna(axis="columns", how="all").dropna(axis="index") for file in list(os.walk("data/warmline"))[0][2]])
+from head import df
+
 def retain_quantile(df, percentile=0.95):
     percentile_val = df['Age'].quantile(percentile)
 
@@ -35,4 +35,5 @@ d = d[d["Age"] <= d["Age"].quantile(0.95)]
 
 plot = d[["Age", "Gender"]].groupby("Gender").boxplot()
 
-plt.savefig("images/WhoIsUsing.png")
+from func import save
+save(__file__)

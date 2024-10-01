@@ -5,7 +5,7 @@ import numpy as np
 #files = pd.read_csv("data/01-24.csv")
 pd.DataFrame()
 
-df = pd.concat( [  pd.read_csv(os.path.join(os.path.abspath("."), "data", "warmline", file)).dropna(axis="columns", how="all").dropna(axis="index") for file in list(os.walk("data/warmline"))[0][2]])
+from head import df
 
 df["Zip"] = df["Zip"].astype(float).astype(int)
 
@@ -19,4 +19,5 @@ df = pd.DataFrame({
 print(df.plot.bar(x='Zip', y='Val', rot=0, color="red", figsize=(20, 10)))
 
 
-plt.savefig("images/Zips.png",)
+from func import save
+save(__file__)

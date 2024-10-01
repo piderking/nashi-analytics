@@ -7,7 +7,7 @@ import seaborn as sns
 #files = pd.read_csv("data/01-24.csv")
 pd.DataFrame()
 
-df = pd.concat( [  pd.read_csv(os.path.join(os.path.abspath("."), "data", "warmline", file)).dropna(axis="columns", how="all").dropna(axis="index") for file in list(os.walk("data/warmline"))[0][2]])
+from head import df
 
 df["Date"] = df["Date"].apply(pd.to_datetime)
 df["YOB"] = df["YOB"].astype(str).replace(" ", "").replace("", 0)
@@ -25,8 +25,7 @@ colors = {'female': 'Pink', 'male': 'Navy'}
 df = df.set_index("Date")
 
 for kind, data in df.groupby('Gender'):
-    print(str(kind))
-    data.resample("MS").sum().plot(label=str(kind), color=colors[kind], ax=ax, legend=kind)
+    data.resample("MS").sum().plot(label=str(kind), color=colors[kind.strip()], ax=ax, legend=kind)
 
 ax.set(xlabel='Month', ylabel="Times Used")
 
@@ -45,4 +44,5 @@ ax.set(xlabel='Month', ylabel="Times Used")
 ax.tick_params(reset=True, direction='out', pad=1.0, width=1, labelsize="small",zorder=2)
 fig.suptitle('Male v. Female Monthly Usage')
  # NOTE This graph isn't very helpful
-plt.savefig("images/totalcountsovertimegender.png")
+from func import save
+save(__file__)
