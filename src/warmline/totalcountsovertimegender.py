@@ -25,7 +25,7 @@ colors = {'female': 'Pink', 'male': 'Navy'}
 df = df.set_index("Date")
 
 for kind, data in df.groupby('Gender'):
-    data.resample("MS").sum().plot(label=str(kind), color=colors[kind.strip()], ax=ax, legend=kind)
+    data.resample("MS").sum().plot(label=str(kind), color=colors[kind.strip()], ax=ax, legend=str(kind))
 
 ax.set(xlabel='Month', ylabel="Times Used")
 
@@ -40,6 +40,7 @@ ax.set(xlabel='Month', ylabel="Times Used")
 
 
 
+ax.legend(["Female", "Male"]);
 
 ax.tick_params(reset=True, direction='out', pad=1.0, width=1, labelsize="small",zorder=2)
 fig.suptitle('Male v. Female Monthly Usage')
