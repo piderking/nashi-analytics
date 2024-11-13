@@ -8,7 +8,6 @@ pd.DataFrame()
 from head import df
 
 df["Zip"] = df["Zip"].astype(float).astype(int)
-df = df[df["Zip"] > 0]
 
 #d = df[df["Age"] > df["Age"].quantile(0.5) ]
 
@@ -24,9 +23,9 @@ print(df.plot.bar(x='Zip',  stacked=True,  rot=0, color="red", figsize=(20, 10))
 fig, ax = plt.subplots(figsize=(6, 4))
 
 
-d = df.groupby(['Zip', 'Gender'])['Zip'].count().unstack('Gender').fillna(0)
+d = df.groupby(['City', 'Gender'])['City'].count().unstack('Gender').fillna(0)
 plt.ylabel("Call Amounts")
-plt.title("Amount of Warmline Calls per Zip Code by Gender", loc="left", )
+plt.title("Amount of Warmline Calls per City Code by Gender", loc="left", )
 print(d.plot(kind="bar", stacked=True,  figsize=(20, 10),color=['pink', 'blue']),)
 
 from func import save

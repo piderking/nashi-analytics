@@ -9,9 +9,6 @@ pd.DataFrame()
 
 from head import df
 
-df["Date"] = df["Date"].apply(pd.to_datetime)
-df["YOB"] = df["YOB"].astype(str).replace(" ", "").replace("", 0)
-df["Age"] = 2024 - df["YOB"].astype(float).astype(int)
 #df["Date"] = df["Date"].apply(lambda x: 2000)
 df["Count"] = np.ones(len(df["Date"]))
 df = df[["Date", "Count", "Gender"]]
